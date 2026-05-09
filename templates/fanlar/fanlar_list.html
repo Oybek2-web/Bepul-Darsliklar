@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Fanlar ro‘yxati</h2>
+
+<div class="row">
+    {% for fan in fanlar %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+
+                <div class="card-body d-flex flex-column">
+                    <h5>{{ fan.name }}</h5>
+
+                    <p class="text-muted">{{ fan.created_at }}</p>
+
+                    <a href="{% url 'fanlar:fanlar_update' fan.id %}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        Tahrirlash
+                    </a>
+
+                    <a href="{% url 'fanlar:fanlar_delete' fan.id %}"
+                       class="btn btn-sm btn-outline-danger mt-2">
+                        O‘chirish
+                    </a>
+
+                    <a href="{% url 'fanlar:darslik_kirish' fan.id %}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        Kirish
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    {% empty %}
+        <p>Hozircha fanlar yo‘q</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

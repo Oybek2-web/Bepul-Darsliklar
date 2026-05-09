@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Darsliklar ro‘yxati</h2>
+
+<a href="{% url 'darslik:darslik_create' %}" class="shorts-btn ms-2">
+    + Qo‘shish
+</a>
+
+<div class="row">
+    {% for darslik in darsliklar %}
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body d-flex flex-column">
+                    <h5>{{ darslik.name }}</h5>
+
+                    <p class="text-muted">{{ darslik.created_at }}</p>
+
+                    <a href="{% url 'darslik:darslik_update' darslik.id %}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        Tahrirlash
+                    </a>
+
+                    <a href="{% url 'darslik:darslik_delete' darslik.id %}"
+                       class="btn btn-sm btn-outline-danger mt-2">
+                        O‘chirish
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    {% empty %}
+        <p>Hozircha darsliklar yo‘q</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
