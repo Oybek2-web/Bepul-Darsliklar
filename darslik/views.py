@@ -2,9 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Darslik
 from .forms import DarslikForms
 
-
-# DARSLIK MODELI
-
 def darslik_create(request):
     if request.method == 'POST':
         form = DarslikForms(request.POST, request.FILES)

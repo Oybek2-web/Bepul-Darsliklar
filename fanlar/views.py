@@ -29,12 +29,12 @@ def fanlar_update(request, id):
     return render(request, 'fanlar/fanlar_update.html', {"form":form})
 
 def fanlar_delete(request, id):
-    fan = get_object_or_404(Fanlar, id=id)
-    fan.delete()
+    fanlar = get_object_or_404(Fanlar, id=id)
+    fanlar.delete()
     return redirect('fanlar:fanlar_list')
 
 def darslik_kirish(request, id):
-    kirish = Fanlar.objects.get(id=id)
+    kirish = get_object_or_404(Fanlar, id=id)
     return render(request, 'fanlar/darslik_kirish.html', {'kirish':kirish})
 
 
