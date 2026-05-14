@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ darslik.title }} - Batafsil{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Orqaga -->
+    <a href="{% url 'fanlar:darslik_kirish' darslik.fan.id %}"
+       class="btn btn-outline-secondary mb-4">
+        ← Orqaga
+    </a>
+
+    <!-- Card -->
+    <div class="card shadow-lg border-0">
+
+        <!-- Photo -->
+        {% if darslik.photo %}
+        <img src="{{ darslik.photo.url }}"
+             class="card-img-top"
+             alt="{{ darslik.title }}"
+             style="height:300px; object-fit:cover;">
+
+        {% else %}
+        <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
+             style="height:300px;">
+            <h5>📚 Rasm mavjud emas</h5>
+        </div>
+        {% endif %}
+
+        <div class="card-body">
+
+            <!-- Title -->
+            <h2 class="card-title fw-bold text-primary">
+                {{ darslik.title }}
+            </h2>
+
+            <!-- Meta -->
+            <div class="text-muted mb-3">
+                <small>
+                    📘 Fan:
+                    <strong>{{ darslik.fan.name }}</strong>
+
+                    |
+
+                    🕒
+                    {{ darslik.created_at|date:"d M Y, H:i" }}
+                </small>
+            </div>
+
+            <!-- Describe -->
+            <h5 class="mt-4">📝 Tavsif:</h5>
+
+            <p class="card-text text-secondary">
+                {{ darslik.describe|default:"Tavsif mavjud emas." }}
+            </p>
+
+            <!-- Video -->
+            {% if darslik.video %}
+            <div class="mt-4 p-3 bg-light rounded">
+
+                <h5>🎬 Video dars:</h5>
+
+                <video width="100%" controls class="rounded mb-3">
+                    <source src="{{ darslik.video.url }}" type="video/mp4">
+                    Brauzeringiz video formatni qo‘llab-quvvatlamaydi.
+                </video>
+
+                <a href="{{ darslik.video.url }}"
+                   class="btn btn-outline-primary btn-sm"
+                   download>
+                    📥 Videoni yuklab olish
+                </a>
+
+            </div>
+            {% endif %}
+
+            <!-- PDF -->
+            {% if darslik.pdf %}
+            <div class="mt-4 p-3 bg-light rounded">
+
+                <h5>📕 PDF Darslik:</h5>
+
+                <!-- Preview -->
+                <iframe src="{{ darslik.pdf.url }}"
+                        width="100%"
+                        height="400px"
+                        class="border rounded mb-3">
+                </iframe>
+
+                <!-- Download -->
+                <a href="{{ darslik.pdf.url }}"
+                   class="btn btn-success"
+                   download>
+                    📥 PDF ni yuklab olish
+                </a>
+
+                <small class="d-block mt-2 text-muted">
+                    Hajmi:
+                    {{ darslik.pdf.size|filesizeformat }}
+                </small>
+
+            </div>
+            {% endif %}
+
+            <!-- Admin buttons -->
+            {% if user.is_staff %}
+            <div class="mt-4 pt-3 border-top">
+
+                <a href="{% url 'fanlar:darslik_update' darslik.id %}"
+                   class="btn btn-warning">
+                    ✏️ Tahrirlash
+                </a>
+
+                <a href="{% url 'fanlar:darslik_delete' darslik.id %}"
+                   class="btn btn-danger"
+                   onclick="return confirm('Haqiqatan ham o‘chirmoqchimisiz?')">
+                    🗑️ O‘chirish
+                </a>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Other lessons -->
+    <div class="mt-5">
+
+        <h4>📚 Shu fanga oid boshqa darsliklar</h4>
+
+        <div class="row mt-3">
+
+            {% for item in boshqa_darsliklar %}
+            <div class="col-md-4 mb-3">
+
+                <div class="card h-100 shadow-sm">
+
+                    {% if item.photo %}
+                    <img src="{{ item.photo.url }}"
+                         class="card-img-top"
+                         alt="{{ item.title }}"
+                         style="height:180px; object-fit:cover;">
+                    {% endif %}
+
+                    <div class="card-body d-flex flex-column">
+
+                        <h6 class="card-title">
+                            {{ item.title }}
+                        </h6>
+
+                        <p class="card-text small text-secondary">
+                            {{ item.describe|truncatewords:10 }}
+                        </p>
+
+                        <a href="{% url 'fanlar:darslik_detail' item.id %}"
+                           class="btn btn-sm btn-outline-primary mt-auto">
+                            Ko‘rish →
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            {% empty %}
+            <p class="text-muted">
+                Boshqa darsliklar mavjud emas.
+            </p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

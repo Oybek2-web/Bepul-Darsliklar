@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Fanlar
 from .forms import FanlarForms
-
+from darslik.models import Darslik
 # FANLAR MODELI
+
 def fanlar_list(request):
     fanlar = Fanlar.objects.all()
     return render(request, 'fanlar/fanlar_list.html', {"fanlar":fanlar})
@@ -35,6 +36,5 @@ def fanlar_delete(request, id):
 
 def darslik_kirish(request, id):
     kirish = get_object_or_404(Fanlar, id=id)
-    return render(request, 'fanlar/darslik_kirish.html', {'kirish':kirish})
-
-
+    darsliklar = Darslik.objects.all()
+    return render(request, 'fanlar/darslik_kirish.html', {'kirish': kirish, 'darsliklar': darsliklar })

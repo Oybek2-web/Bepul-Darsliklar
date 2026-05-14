@@ -16,73 +16,78 @@
 
         {% for darslik in darsliklar %}
 
-            <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4">
 
-                <div class="card shadow-sm h-100">
+            <div class="card shadow-sm h-100">
 
-                    {% if darslik.photo %}
-                        <img src="{{ darslik.photo.url }}"
-                             class="card-img-top"
-                             style="height: 220px; object-fit: cover;">
+                {% if darslik.photo %}
+                <img src="{{ darslik.photo.url }}"
+                     class="card-img-top"
+                     style="height: 220px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title">
+                        {{ darslik.title }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ darslik.describe|truncatewords:15 }}
+                    </p>
+
+                    <p class="text-muted">
+                        Fan: {{ darslik.fan }}
+                    </p>
+
+                    <small class="text-secondary mb-3">
+                        {{ darslik.created_at }}
+                    </small>
+
+                    {% if darslik.pdf %}
+                    <a href="{{ darslik.pdf.url }}"
+                       class="btn btn-sm btn-outline-dark mb-2"
+                       target="_blank">
+                        PDF ko‘rish
+                    </a>
                     {% endif %}
 
-                    <div class="card-body d-flex flex-column">
+                    {% if darslik.video %}
+                    <a href="{{ darslik.video.url }}"
+                       class="btn btn-sm btn-outline-success mb-2"
+                       target="_blank">
+                        Video ko‘rish
+                    </a>
+                    {% endif %}
 
-                        <h5 class="card-title">
-                            {{ darslik.title }}
-                        </h5>
+                    <a href="{% url 'darslik:darslik_update' darslik.id %}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        Tahrirlash
+                    </a>
 
-                        <p class="card-text">
-                            {{ darslik.describe|truncatewords:15 }}
-                        </p>
+                    <a href="{% url 'darslik:darslik_delete' darslik.id %}"
+                       class="btn btn-sm btn-outline-danger mt-2">
+                        O‘chirish
+                    </a>
 
-                        <p class="text-muted">
-                            Fan: {{ darslik.fan }}
-                        </p>
-
-                        <small class="text-secondary mb-3">
-                            {{ darslik.created_at }}
-                        </small>
-
-                        {% if darslik.pdf %}
-                            <a href="{{ darslik.pdf.url }}"
-                               class="btn btn-sm btn-outline-dark mb-2"
-                               target="_blank">
-                                PDF ko‘rish
-                            </a>
-                        {% endif %}
-
-                        {% if darslik.video %}
-                            <a href="{{ darslik.video.url }}"
-                               class="btn btn-sm btn-outline-success mb-2"
-                               target="_blank">
-                                Video ko‘rish
-                            </a>
-                        {% endif %}
-
-                        <a href="{% url 'darslik:darslik_update' darslik.id %}"
-                           class="btn btn-sm btn-outline-primary mt-auto">
-                            Tahrirlash
-                        </a>
-
-                        <a href="{% url 'darslik:darslik_delete' darslik.id %}"
-                           class="btn btn-sm btn-outline-danger mt-2">
-                            O‘chirish
-                        </a>
-
-                    </div>
+                    <a href="{% url 'darslik:darslik_detail' darslik.id %}"
+                       class="btn btn-sm btn-outline-primary mt-auto">
+                        Batafsil
+                    </a>
 
                 </div>
 
             </div>
+
+        </div>
 
         {% empty %}
 
-            <div class="col-12">
-                <div class="alert alert-warning">
-                    Hozircha darsliklar yo‘q
-                </div>
+        <div class="col-12">
+            <div class="alert alert-warning">
+                Hozircha darsliklar yo‘q
             </div>
+        </div>
 
         {% endfor %}
 

@@ -2,7 +2,7 @@ from django.db import models
 from fanlar.models import Fanlar
 
 class Darslik(models.Model):
-    photo = models.ImageField(upload_to="image/", null=True, blank=True)
+    photo = models.ImageField(upload_to="images/", null=True, blank=True)
     video = models.FileField(upload_to="video/", null=True, blank=True)
     pdf = models.FileField(upload_to="pdf/", null=True, blank=True)
     fan = models.ForeignKey(Fanlar, on_delete=models.CASCADE, related_name='darsliklar')
