@@ -1,17 +1,194 @@
 {% extends 'base.html' %}
 
+{% block title %}Fanni tahrirlash | Darsliklar{% endblock %}
+
 {% block content %}
 
-<h2>Fanni O'zgartirish</h2>
-
-<form method="POST">
-    {% csrf_token %}
-    
-    <div class="card">
-        {{ form.as_p }}
-        <button type="submit" class="btn">Saqlash</button>
+<!-- Page Header -->
+<div class="page-header mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <a href="{% url 'fanlar:fanlar_list' %}" class="btn-back" title="Ro'yxatga qaytish">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </a>
+        <div>
+            <h2 class="fw-bold mb-1" style="font-size: 1.5rem; color: #1e293b;">
+                Fanni tahrirlash
+            </h2>
+            <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                {% if object %}“{{ object.name }}” fani{% else %}Fan ma'lumotlari{% endif %}
+            </p>
+        </div>
     </div>
-    
-</form>
+</div>
+
+<!-- Form Card -->
+<div class="form-card">
+    <form method="POST" novalidate id="update-form">
+        {% csrf_token %}
+
+        <div class="form-fields">
+            {% for field in form %}
+            <div class="form-group {% if field.errors %}has-error{% endif %}">
+
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                    <span class="text-danger">*</span>
+                    {% endif %}
+                </label>
+
+                {% if field.field.widget.input_type == 'textarea' %}
+                <textarea name="{{ field.name }}"
+                          id="{{ field.id_for_label }}"
+                          class="form-control {% if field.errors %}is-invalid{% endif %}"
+                          rows="4"
+                          placeholder="{{ field.field.widget.attrs.placeholder|default:'' }}">{{ field.value|default:'' }}</textarea>
+
+                {% elif field.field.widget.input_type == 'checkbox' %}
+                <div class="form-check">
+                    <input type="checkbox"
+                           name="{{ field.name }}"
+                           id="{{ field.id_for_label }}"
+                           class="form-check-input {% if field.errors %}is-invalid{% endif %}"
+                           {% if field.value %}checked{% endif %}>
+                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                </div>
+
+                {% else %}
+                <input type="{{ field.field.widget.input_type|default:'text' }}"
+                       name="{{ field.name }}"
+                       id="{{ field.id_for_label }}"
+                       class="form-control {% if field.errors %}is-invalid{% endif %}"
+                       value="{{ field.value|default:'' }}"
+                       placeholder="{{ field.field.widget.attrs.placeholder|default:'' }}">
+                {% endif %}
+
+                {% if field.help_text %}
+                <small class="form-help">{{ field.help_text }}</small>
+                {% endif %}
+
+                {% if field.errors %}
+                <div class="invalid-feedback d-block">
+                    {% for error in field.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+
+            <!-- Non-field Errors -->
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <a href="{% url 'fanlar:fanlar_list' %}" class="btn btn-secondary">
+                Bekor qilish
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                O'zgartirishlarni saqlash
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Shared Form Styles (Production da static/css/forms.css ga ko'chiring) -->
+<style>
+    .page-header { display: flex; align-items: center; }
+    .btn-back {
+        width: 36px; height: 36px; border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: #64748b; text-decoration: none; border: 1px solid #e2e8f0;
+        background: #fff; transition: all 0.2s ease; flex-shrink: 0;
+    }
+    .btn-back:hover {
+        color: #6366f1; border-color: #6366f1; background: #f8fafc; transform: translateX(-2px);
+    }
+    .form-card {
+        background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+        padding: 28px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); max-width: 560px; margin: 0 auto;
+    }
+    @media (max-width: 576px) { .form-card { padding: 20px 16px; } }
+    .form-fields { display: flex; flex-direction: column; gap: 20px; margin-bottom: 24px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label { font-size: 0.9rem; font-weight: 500; color: #1e293b; display: flex; align-items: center; gap: 4px; }
+    .form-label .text-danger { color: #ef4444; font-weight: 600; }
+    .form-control {
+        width: 100%; padding: 12px 14px; font-size: 0.95rem; color: #1e293b;
+        background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; transition: all 0.2s ease;
+    }
+    .form-control::placeholder { color: #64748b; opacity: 1; }
+    .form-control:focus {
+        background: #fff; border-color: #6366f1; box-shadow: 0 0 0 3px rgb(99 102 241 / 0.15); outline: none;
+    }
+    .form-control.is-invalid { border-color: #ef4444; background: #fef2f2; }
+    .form-control.is-invalid:focus { box-shadow: 0 0 0 3px rgb(239 68 68 / 0.15); }
+    textarea.form-control { resize: vertical; min-height: 100px; font-family: inherit; }
+    .form-check { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+    .form-check-input { width: 18px; height: 18px; border: 2px solid #e2e8f0; border-radius: 5px; cursor: pointer; accent-color: #6366f1; }
+    .form-check-label { font-size: 0.95rem; color: #1e293b; margin: 0; cursor: pointer; }
+    .form-help { font-size: 0.8rem; color: #64748b; margin-top: 4px; line-height: 1.4; }
+    .invalid-feedback { font-size: 0.85rem; color: #ef4444; margin-top: 4px; font-weight: 500; }
+    .has-error .form-label { color: #ef4444; }
+    .alert { padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; margin-bottom: 16px; }
+    .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+    .form-actions {
+        display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+        padding-top: 20px; border-top: 1px solid #e2e8f0;
+    }
+    @media (max-width: 576px) {
+        .form-actions { flex-direction: column-reverse; }
+        .form-actions .btn { width: 100%; justify-content: center; }
+    }
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 11px 24px; font-size: 0.95rem; font-weight: 600; border-radius: 12px;
+        text-decoration: none; cursor: pointer; transition: all 0.2s ease; border: none; white-space: nowrap;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; box-shadow: 0 2px 4px rgb(99 102 241 / 0.25);
+    }
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #5659e0, #4f46e5); transform: translateY(-1px); box-shadow: 0 4px 12px rgb(99 102 241 / 0.35); color: #fff;
+    }
+    .btn-secondary { background: #fff; color: #1e293b; border: 1px solid #e2e8f0; }
+    .btn-secondary:hover { background: #f8fafc; border-color: #64748b; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+</style>
+
+<!-- Auto-focus & UX tweaks -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fokus: xatoli maydonga yoki birinchi inputga
+        const target = document.querySelector('.is-invalid') || document.querySelector('.form-control, .form-check-input');
+        target?.focus();
+
+        // Bo'sh joylarni avtomatik tozalash
+        document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(el => {
+            el.addEventListener('blur', () => el.value = el.value.trim());
+        });
+    });
+</script>
 
 {% endblock %}

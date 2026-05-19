@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ro'yxatdan o'tish | Darsliklar{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <h1 class="auth-title">Ro'yxatdan o'tish</h1>
+            <p class="auth-subtitle">
+                Yangi hisob yaratish uchun maydonlarni to'ldiring
+            </p>
+        </div>
+
+        <form method="POST" novalidate id="register-form">
+            {% csrf_token %}
+
+            <div class="form-fields">
+
+                {% for field in form %}
+
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+
+                            {% if field.field.required %}
+                                <span class="text-danger">*</span>
+                            {% endif %}
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            {% if 'password' in field.name %}
+
+                                <input type="password"
+                                       name="{{ field.name }}"
+                                       id="{{ field.id_for_label }}"
+                                       class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                       placeholder="{{ field.label }}"
+                                       autocomplete="new-password">
+
+                                <button type="button"
+                                        class="toggle-password"
+                                        aria-label="Parolni ko'rsatish">
+
+                                    <svg class="eye-open"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         width="18"
+                                         height="18"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2">
+
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+
+                                    </svg>
+
+                                    <svg class="eye-closed"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         width="18"
+                                         height="18"
+                                         viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         style="display:none;">
+
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+
+                                    </svg>
+
+                                </button>
+
+                            {% else %}
+
+                                <input type="{{ field.field.widget.input_type|default:'text' }}"
+                                       name="{{ field.name }}"
+                                       id="{{ field.id_for_label }}"
+                                       value="{{ field.value|default:'' }}"
+                                       class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                       placeholder="{{ field.label }}">
+
+                            {% endif %}
+
+                        </div>
+
+                        {% if field.help_text %}
+                            <small class="form-help">
+                                {{ field.help_text|safe }}
+                            </small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="auth-actions">
+
+                <button type="submit"
+                        class="btn btn-primary btn-full"
+                        id="submit-btn">
+
+                    Ro'yxatdan o'tish
+
+                </button>
+
+                <p class="auth-footer-text">
+
+                    Hisobingiz bormi?
+
+                    <a href="#"
+                       class="auth-link">
+
+                        Kirish
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<style>
+
+:root{
+    --primary:#6366f1;
+    --primary-dark:#4f46e5;
+    --bg-light:#f8fafc;
+    --text-dark:#1e293b;
+    --text-muted:#64748b;
+    --border:#e2e8f0;
+    --radius:12px;
+}
+
+.auth-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.auth-card{
+    width:100%;
+    max-width:450px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:30px;
+}
+
+.auth-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.auth-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.auth-subtitle{
+    color:var(--text-muted);
+}
+
+.form-fields{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-label{
+    font-weight:600;
+}
+
+.input-wrapper{
+    position:relative;
+}
+
+.form-control{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--bg-light);
+    box-sizing:border-box;
+}
+
+.form-control:focus{
+    outline:none;
+    border-color:var(--primary);
+}
+
+.toggle-password{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+}
+
+.invalid-feedback{
+    color:red;
+    font-size:14px;
+}
+
+.btn{
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:var(--radius);
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:#fff;
+    font-weight:600;
+}
+
+.auth-footer-text{
+    text-align:center;
+    margin-top:15px;
+}
+
+.auth-link{
+    color:var(--primary);
+    text-decoration:none;
+}
+
+</style>
+
+<script>
+
+document.querySelectorAll('.toggle-password').forEach(button => {
+
+    button.addEventListener('click', function(){
+
+        const input = this.parentElement.querySelector('input');
+
+        if(input.type === 'password'){
+            input.type = 'text';
+
+            this.querySelector('.eye-open').style.display = 'none';
+            this.querySelector('.eye-closed').style.display = 'block';
+
+        } else {
+
+            input.type = 'password';
+
+            this.querySelector('.eye-open').style.display = 'block';
+            this.querySelector('.eye-closed').style.display = 'none';
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

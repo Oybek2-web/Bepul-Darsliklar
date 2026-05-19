@@ -2,16 +2,25 @@
 
 {% block content %}
 
-<h2>Darslikni O'zgartirish</h2>
+<div class="container mt-4">
 
-<form method="POST">
-    {% csrf_token %}
-    
-    <div class="card">
-        {{ form.as_p }}
-        <button type="submit" class="btn">Saqlash</button>
-    </div>
-    
-</form>
+    <h2 class="mb-4">Darslikni o‘zgartirish</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="card shadow-sm p-4">
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-success">
+                Yangilash
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
 
 {% endblock %}
