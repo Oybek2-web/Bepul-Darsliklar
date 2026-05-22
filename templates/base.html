@@ -296,6 +296,14 @@
             }
         }
 
+        /* Foydalanuvchi ismi uchun qo'shimcha stil */
+        .user-greeting {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            margin-right: 8px;
+        }
+
     </style>
 </head>
 
@@ -375,35 +383,50 @@
 
             <div class="d-flex align-items-center gap-2 navbar-buttons ms-lg-3">
 
-                <!-- REGISTER -->
+                {% if user.is_authenticated %}
+                    <!-- Foydalanuvchi KIRGAN bo'lsa -->
 
-                <a href="{% url 'account:register' %}"
-                   class="btn-register">
-                    Registratsiya
-                </a>
+                    <span class="user-greeting">👋 {{ user.username }}</span>
 
-                <a href="{% url 'account:logout' %}"
-                   class="btn-register">
-                    Logout
-                </a>
+                    <!-- Logout - POST form (xavfsizlik uchun) -->
+                    <form method="post" action="{% url 'account:logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-register">
+                            Chiqish
+                        </button>
+                    </form>
 
-                <!-- CREATE -->
+                    <!-- Qo'shish tugmasi faqat kirgan foydalanuvchilar uchun -->
+                    <a href="{% url 'fanlar:fanlar_create' %}"
+                       class="btn-create">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="16"
+                             height="16"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2.5"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Qo'shish
+                    </a>
 
-                <a href="{% url 'fanlar:fanlar_create' %}"
-                   class="btn-create">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="16"
-                         height="16"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2.5"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                    Qo'shish
-                </a>
+                {% else %}
+                    <!-- Foydalanuvchi KIRMAGAN bo'lsa -->
+
+                    <a href="{% url 'account:login' %}"
+                       class="btn-register">
+                        Kirish
+                    </a>
+
+                    <a href="{% url 'account:register' %}"
+                       class="btn-register">
+                        Registratsiya
+                    </a>
+
+                {% endif %}
 
             </div>
 

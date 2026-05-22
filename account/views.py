@@ -5,23 +5,23 @@ from account.forms import RegisterForm
 
 from django.contrib.auth.models import User
 
-
 # REGISTER
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            User.objects.create_user(
+            user = User.objects.create_user(
                 username=data.get('username'),
                 password=data.get('password')
             )
+            login(request, user)
             return redirect('fanlar:fanlar_list')
         else:
-            return render(request,'account/register.html',{'form': form})
+            return render(request, 'account/register.html', {'form': form})
     else:
         form = RegisterForm()
-        return render(request,'account/register.html',{'form': form})
+        return render(request, 'account/register.html', {'form': form})
 
 
 # LOGIN
