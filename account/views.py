@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from account.forms import RegisterForm
+from account.forms import UserRegisterForm
 
 from django.contrib.auth.models import User
 
 # REGISTER
 def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             user = User.objects.create_user(
@@ -20,7 +20,7 @@ def register(request):
         else:
             return render(request, 'account/register.html', {'form': form})
     else:
-        form = RegisterForm()
+        form = UserRegisterForm()
         return render(request, 'account/register.html', {'form': form})
 
 
