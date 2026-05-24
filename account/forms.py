@@ -3,22 +3,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-# class RegisterForm(UserCreationForm):
-#     class Meta:
-#         model = User
-#         fields = ['username', 'email', 'password1', 'password2']
-#
-#     def clean(self):
-#         password1 = self.cleaned_data.get('password1')
-#         password2 = self.cleaned_data.get('password2')
-#         if password1 != password2:
-#             raise forms.ValidationError('Ikkita parol bir xil emas!')
-#         return self.cleaned_data
-
 class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password1', 'password2']
 
     def clean(self):
         # password = self.cleaned_data.get('password')

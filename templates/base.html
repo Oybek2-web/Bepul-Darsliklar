@@ -1,478 +1,394 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="uz">
-
+<html lang="uz" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Darsliklar{% endblock %}</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <style>
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-hover: #5659e0;
-
-            --bg-light: #f8fafc;
-
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-
-            --border: #e2e8f0;
-
-            --shadow-sm:
-                    0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-            --shadow-md:
-                    0 10px 15px -3px rgb(0 0 0 / 0.1),
-                    0 4px 6px -4px rgb(0 0 0 / 0.1);
-
-            --radius: 14px;
-            --radius-lg: 20px;
-        }
-
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--bg-light);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        .navbar {
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(12px);
-
-            border-bottom: 1px solid var(--border);
-
-            padding: 14px 0;
-
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-        }
-
-        .navbar-brand {
-            text-decoration: none;
-            gap: 12px;
-        }
-
-        .navbar-brand img {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .navbar-brand span {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        /* =========================
-           SEARCH
-        ========================== */
-
-        .search-form {
-            position: relative;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .search-form input {
-            width: 100%;
-
-            height: 46px;
-
-            border-radius: 14px;
-
-            border: 1px solid var(--border);
-
-            background: #fff;
-
-            padding-left: 46px;
-            padding-right: 16px;
-
-            font-size: 0.95rem;
-
-            transition: 0.2s ease;
-        }
-
-        .search-form input:focus {
-            outline: none;
-
-            border-color: var(--primary);
-
-            box-shadow:
-                    0 0 0 4px rgb(99 102 241 / 0.12);
-        }
-
-        .search-icon {
-            position: absolute;
-
-            left: 15px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            color: #94a3b8;
-
-            display: flex;
-            align-items: center;
-        }
-
-        /* =========================
-           BUTTONS
-        ========================== */
-
-        .btn-register {
-            height: 46px;
-
-            padding: 0 18px;
-
-            border-radius: 14px;
-
-            border: 1px solid var(--border);
-
-            background: #fff;
-
-            color: var(--text-dark);
-
-            text-decoration: none;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            font-weight: 600;
-
-            transition: 0.2s ease;
-        }
-
-        .btn-register:hover {
-            background: #f1f5f9;
-
-            border-color: #cbd5e1;
-
-            color: var(--primary);
-        }
-
-        .btn-create {
-            height: 46px;
-
-            padding: 0 18px;
-
-            border-radius: 14px;
-
-            border: none;
-
-            background:
-                    linear-gradient(
-                            135deg,
-                            var(--primary),
-                            var(--primary-dark)
-                    );
-
-            color: #fff;
-
-            text-decoration: none;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 7px;
-
-            font-weight: 600;
-
-            box-shadow:
-                    0 6px 16px rgb(99 102 241 / 0.28);
-
-            transition: 0.2s ease;
-        }
-
-        .btn-create:hover {
-            color: white;
-
-            transform: translateY(-1px);
-
-            background:
-                    linear-gradient(
-                            135deg,
-                            var(--primary-hover),
-                            var(--primary-dark)
-                    );
-
-            box-shadow:
-                    0 8px 20px rgb(99 102 241 / 0.35);
-        }
-
-        /* =========================
-           CONTENT
-        ========================== */
-
-        .content-card {
-            background: white;
-
-            border: 1px solid var(--border);
-
-            border-radius: var(--radius-lg);
-
-            padding: 24px;
-
-            box-shadow: var(--shadow-sm);
-
-            transition: 0.2s ease;
-        }
-
-        .content-card:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-            margin-top: auto;
-
-            background: white;
-
-            border-top: 1px solid var(--border);
-
-            color: var(--text-muted);
-
-            padding: 18px 0;
-
-            font-size: 0.92rem;
-        }
-
-        /* =========================
-           MOBILE
-        ========================== */
-
-        @media (max-width: 991px) {
-
-            .navbar-collapse {
-                padding-top: 18px;
-            }
-
-            .search-form {
-                max-width: 100%;
-                margin-bottom: 14px;
-            }
-
-            .navbar-buttons {
-                width: 100%;
-                flex-direction: column;
-            }
-
-            .btn-register,
-            .btn-create {
-                width: 100%;
-            }
-        }
-
-        /* Foydalanuvchi ismi uchun qo'shimcha stil */
-        .user-greeting {
-            font-weight: 500;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-            margin-right: 8px;
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Darsliklar{% endblock %}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0a0a0f;
+    --surface: #111118;
+    --border:  rgba(255,255,255,0.06);
+    --text:    #ededf0;
+    --muted:   #606070;
+    --accent:  #6366f1;
+    --accent2: #818cf8;
+  }
+  [data-theme="light"] {
+    --bg:      #f5f5f8;
+    --surface: #ffffff;
+    --border:  rgba(0,0,0,0.07);
+    --text:    #111118;
+    --muted:   #8888a0;
+    --accent:  #4f46e5;
+    --accent2: #6366f1;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    transition: background .25s, color .25s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .logo {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: #fff;
+  }
+
+  .search {
+    flex: 1;
+    max-width: 360px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .search svg {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .search input {
+    width: 100%;
+    height: 36px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: .82rem;
+    padding: 0 12px 0 34px;
+    outline: none;
+    transition: .2s;
+  }
+  .search input::placeholder { color: var(--muted); }
+  .search input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99,102,241,.15);
+  }
+
+  .nav-end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: .15s;
+  }
+  .icon-btn:hover { color: var(--text); border-color: rgba(255,255,255,.15); }
+
+  .chip {
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 7px;
+    font-family: 'Sora', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: .15s;
+    white-space: nowrap;
+  }
+  .chip-ghost {
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+  }
+  .chip-ghost:hover { color: var(--text); border-color: rgba(255,255,255,.18); }
+  .chip-fill {
+    border: none;
+    background: var(--accent);
+    color: #fff;
+  }
+  .chip-fill:hover { background: var(--accent2); color: #fff; }
+
+  .avatar {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    background: rgba(99,102,241,.18);
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* icon-sun / icon-moon */
+  .icon-sun { display: none; }
+  [data-theme="light"] .icon-moon { display: none; }
+  [data-theme="light"] .icon-sun  { display: block; }
+
+  /* ── LAYOUT ── */
+  .wrap { display: flex; flex: 1; }
+
+  aside {
+    width: 200px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .aside-label {
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 10px 4px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 500;
+    transition: .15s;
+  }
+  .nav-link:hover { background: rgba(255,255,255,.04); color: var(--text); }
+  .nav-link.active { background: rgba(99,102,241,.12); color: var(--accent); }
+
+  .aside-foot {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 28px;
+    animation: up .25s ease both;
+  }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .footer-logo { font-size: .85rem; font-weight: 700; color: var(--accent); }
+  .footer-copy { font-size: .75rem; color: var(--muted); }
+
+  /* ── MOBILE ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span { display: block; width: 18px; height: 2px; background: var(--muted); border-radius: 2px; }
+
+  .mobile-panel {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-panel.open { display: flex; }
+
+  @media (max-width: 860px) { aside { display: none; } }
+  @media (max-width: 600px) {
+    .search, .nav-end .chip { display: none; }
+    .hamburger { display: flex; }
+    main { padding: 16px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
 </head>
-
 <body>
 
-<!-- =========================
-     NAVBAR
-========================== -->
+<nav>
+  <a class="logo" href="{% url 'fanlar:fanlar_list' %}">
+    <div class="logo-mark">D</div>
+    Darslik
+  </a>
 
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
+  <div class="search">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <form method="get" action="{% url 'fanlar:fanlar_list' %}" style="display:contents">
+      <input type="search" name="search" placeholder="Izlash…" value="{{ request.GET.search|default:'' }}">
+    </form>
+  </div>
 
-        <!-- LOGO -->
+  <div class="nav-end">
+    <button class="icon-btn" id="themeToggle">
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
 
-        <a class="navbar-brand d-flex align-items-center"
-           href="{% url 'fanlar:fanlar_list' %}">
+    {% if user.is_authenticated %}
+      <div class="avatar">{{ user.username|first|upper }}</div>
+      <form method="post" action="{% url 'account:logout' %}" style="display:contents">
+        {% csrf_token %}
+        <button type="submit" class="chip chip-ghost">Chiqish</button>
+      </form>
+      <a href="{% url 'fanlar:fanlar_create' %}" class="chip chip-fill">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Qo'shish
+      </a>
+    {% else %}
+      <a href="{% url 'account:login' %}" class="chip chip-ghost">Kirish</a>
+      <a href="{% url 'account:register' %}" class="chip chip-fill">Ro'yxat</a>
+    {% endif %}
 
-            <img src="https://i.ibb.co/DfBR13p7/logo.png"
-                 alt="Logo">
-
-            <span>Darsliklar</span>
-
-        </a>
-
-        <!-- TOGGLER -->
-
-        <button class="navbar-toggler border-0 shadow-none"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-        <!-- NAVBAR CONTENT -->
-
-        <div class="collapse navbar-collapse"
-             id="navbarContent">
-
-            <!-- SEARCH -->
-
-            <form class="search-form mx-lg-auto"
-                  method="get"
-                  action="{% url 'fanlar:fanlar_list' %}">
-
-                <span class="search-icon">
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="18"
-                         height="18"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-
-                        <circle cx="11"
-                                cy="11"
-                                r="8"></circle>
-
-                        <path d="m21 21-4.3-4.3"></path>
-
-                    </svg>
-
-                </span>
-
-                <input type="search"
-                       name="search"
-                       placeholder="Fan qidirish..."
-                       value="{{ request.GET.search|default:'' }}">
-
-            </form>
-
-            <!-- BUTTONS -->
-
-            <div class="d-flex align-items-center gap-2 navbar-buttons ms-lg-3">
-
-                {% if user.is_authenticated %}
-                    <!-- Foydalanuvchi KIRGAN bo'lsa -->
-
-                    <span class="user-greeting">👋 {{ user.username }}</span>
-
-                    <!-- Logout - POST form (xavfsizlik uchun) -->
-                    <form method="post" action="{% url 'account:logout' %}" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-register">
-                            Chiqish
-                        </button>
-                    </form>
-
-                    <!-- Qo'shish tugmasi faqat kirgan foydalanuvchilar uchun -->
-                    <a href="{% url 'fanlar:fanlar_create' %}"
-                       class="btn-create">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             width="16"
-                             height="16"
-                             viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="2.5"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path d="M12 5v14M5 12h14"/>
-                        </svg>
-                        Qo'shish
-                    </a>
-
-                {% else %}
-                    <!-- Foydalanuvchi KIRMAGAN bo'lsa -->
-
-                    <a href="{% url 'account:login' %}"
-                       class="btn-register">
-                        Kirish
-                    </a>
-
-                    <a href="{% url 'account:register' %}"
-                       class="btn-register">
-                        Registratsiya
-                    </a>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-    </div>
-
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 
-<!-- =========================
-     MAIN
-========================== -->
+<div class="mobile-panel" id="mobilePanel">
+  <div class="search" style="max-width:100%">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <form method="get" action="{% url 'fanlar:fanlar_list' %}" style="display:contents">
+      <input type="search" name="search" placeholder="Izlash…" value="{{ request.GET.search|default:'' }}">
+    </form>
+  </div>
+  {% if user.is_authenticated %}
+    <a href="{% url 'fanlar:fanlar_create' %}" class="chip chip-fill" style="width:100%;height:40px;justify-content:center">+ Fan qo'shish</a>
+    <form method="post" action="{% url 'account:logout' %}">{% csrf_token %}
+      <button type="submit" class="chip chip-ghost" style="width:100%;height:40px">Chiqish</button>
+    </form>
+  {% else %}
+    <a href="{% url 'account:login' %}" class="chip chip-ghost" style="width:100%;height:40px;justify-content:center">Kirish</a>
+    <a href="{% url 'account:register' %}" class="chip chip-fill" style="width:100%;height:40px;justify-content:center">Ro'yxatdan o'tish</a>
+  {% endif %}
+</div>
 
-<main class="container mt-4 mb-4 flex-grow-1">
+<div class="wrap">
+  <aside>
+    <span class="aside-label">Menyu</span>
+    <a href="{% url 'fanlar:fanlar_list' %}" class="nav-link active">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Bosh sahifa
+    </a>
+    <a href="{% url 'fanlar:fanlar_list' %}" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Fanlar
+    </a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'fanlar:fanlar_create' %}" class="nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+      Yangi fan
+    </a>
+    {% endif %}
 
+    <div class="aside-foot">
+      {% if user.is_authenticated %}
+        <div class="nav-link" style="cursor:default">
+          <div class="avatar">{{ user.username|first|upper }}</div>
+          <span style="font-size:.8rem;color:var(--muted)">{{ user.username }}</span>
+        </div>
+        <form method="post" action="{% url 'account:logout' %}">{% csrf_token %}
+          <button type="submit" class="nav-link" style="width:100%;border:none;background:none;cursor:pointer;text-align:left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Chiqish
+          </button>
+        </form>
+      {% else %}
+        <a href="{% url 'account:login' %}" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Kirish
+        </a>
+        <a href="{% url 'account:register' %}" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Ro'yxat
+        </a>
+      {% endif %}
+    </div>
+  </aside>
+
+  <main>
     {% block content %}
-
-    <div class="content-card">
-
-        <h4 class="fw-bold mb-3">
-            Xush kelibsiz 👋
-        </h4>
-
-        <p class="text-muted mb-0">
-            Bu yerda fanlar va darsliklar joylashadi.
-        </p>
-
-    </div>
-
+    <p style="color:var(--muted)">Xush kelibsiz 👋 Bu yerda fanlar va darsliklar joylashadi.</p>
     {% endblock %}
+  </main>
+</div>
 
-</main>
-
-<!-- =========================
-     FOOTER
-========================== -->
-
-<footer class="text-center">
-    <div class="container">
-        © 2026 Darsliklar platformasi.
-        Barcha huquqlar himoyalangan.
-    </div>
+<footer>
+  <span class="footer-logo">Darslik.</span>
+  <span class="footer-copy">© 2026 Barcha huquqlar himoyalangan</span>
 </footer>
 
-<!-- Bootstrap JS -->
+<script>
+  const html = document.documentElement;
+  const saved = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', saved);
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  document.getElementById('hamburger').addEventListener('click', () =>
+    document.getElementById('mobilePanel').classList.toggle('open')
+  );
+</script>
 </body>
 </html>

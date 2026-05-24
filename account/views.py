@@ -13,7 +13,7 @@ def register(request):
             data = form.cleaned_data
             user = User.objects.create_user(
                 username=data.get('username'),
-                password=data.get('password')
+                password=data.get('password1')  # ✅ 'password1' ishlatiladi
             )
             login(request, user)
             return redirect('fanlar:fanlar_list')
@@ -22,7 +22,6 @@ def register(request):
     else:
         form = UserRegisterForm()
         return render(request, 'account/register.html', {'form': form})
-
 
 # LOGIN
 def login_user(request):
