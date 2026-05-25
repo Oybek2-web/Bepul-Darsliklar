@@ -4,4 +4,4 @@ from .models import Darslik
 class DarslikForms(forms.ModelForm):
     class Meta:
         model = Darslik
-        fields = '__all__'
+        fields = ['photo', 'video', 'pdf', 'title', 'describe']
