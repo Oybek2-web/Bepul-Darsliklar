@@ -1,4 +1,5 @@
 from django.core.mail import send_mail, EmailMessage
+from config.settings import BASE_DIR
 import os
 
 def send_simple_email():
@@ -12,7 +13,7 @@ def send_simple_email():
 
 
 def send_email_with_attachment():
-    file_path = "file.pdf"
+    file_path = os.path.join(BASE_DIR, 'common/service/file.txt')
 
     if not os.path.exists(file_path):
         print("Fayl topilmadi!")
@@ -25,5 +26,5 @@ def send_email_with_attachment():
         to=["subwayrush841@gmail.com"],
     )
     with open(file_path, "rb") as f:
-        email.attach("file.pdf", f.read(), "application/pdf")
+        email.attach("file.txt", f.read(), "application/pdf")
     email.send()

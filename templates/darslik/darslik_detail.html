@@ -137,7 +137,8 @@
 <nav class="bc">
   <a href="{% url 'fanlar:fanlar_list' %}">Fanlar</a>
   <span class="bc-sep">/</span>
-  <a href="{% url 'fanlar:darslik_kirish' darslik.fan.id %}">{{ darslik.fan.name }}</a>
+  {% url 'fanlar:darslik_kirish' darslik.fan_nomi.id %}
+{{ darslik.fan_nomi.name }}
   <span class="bc-sep">/</span>
   <span class="bc-cur">{{ darslik.title|truncatewords:4 }}</span>
 </nav>
@@ -239,7 +240,7 @@
       <div class="s-title">Tezkor harakatlar</div>
       {% if darslik.video %}<a href="#video-section" class="q-action"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Videoga o'tish</a>{% endif %}
       {% if darslik.pdf %}<a href="#pdf-section" class="q-action"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF ga o'tish</a>{% endif %}
-      <a href="{% url 'fanlar:darslik_kirish' darslik.fan.id %}" class="q-action"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Boshqa darsliklar</a>
+      <a href="{% url 'fanlar:darslik_kirish' darslik.fan_nomi.id %}" class="q-action"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Boshqa darsliklar</a>
     </div>
 
     {% if user.is_staff %}
