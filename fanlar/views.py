@@ -12,7 +12,7 @@ def fanlar_list(request):
 @login_required
 def fanlar_create(request):
     if request.method == 'POST':
-        form = FanlarForms(request.POST)
+        form = FanlarForms(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('fanlar:fanlar_list')
@@ -24,7 +24,7 @@ def fanlar_create(request):
 def fanlar_update(request, id):
     fanlar = get_object_or_404(Fanlar, id=id)
     if request.method == "POST":
-        form = FanlarForms(request.POST, instance=fanlar)
+        form = FanlarForms(request.POST, request.FILES, instance=fanlar)
         if form.is_valid():
             form.save()
             return redirect('fanlar:fanlar_list')
