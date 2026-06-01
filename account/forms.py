@@ -33,3 +33,7 @@ class LoginForm(forms.Form):
 
             cleaned_data['user'] = user
         return cleaned_data
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()

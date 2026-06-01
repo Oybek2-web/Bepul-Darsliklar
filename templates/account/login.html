@@ -137,6 +137,11 @@
 
             <div class="auth-actions">
 
+                <a href="{% url 'account:forgot' %}"
+                   class="auth-link">
+                    Parolni unutdingizmi
+                </a>
+
                 <button type="submit"
                         class="btn btn-primary btn-full">
                     Kirish
@@ -311,6 +316,15 @@
 
 .auth-link:hover{
     text-decoration:underline;
+}
+
+.auth-actions{
+    text-align:center;
+}
+
+.auth-actions > .auth-link{
+    display:block;
+    margin-bottom:15px;
 }
 
 </style>

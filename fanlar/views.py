@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-# from account.utils import login_required
 from .models import Fanlar
 from .forms import FanlarForms
-# FANLAR MODELI
 
 def fanlar_list(request):
     fanlar = Fanlar.objects.all()

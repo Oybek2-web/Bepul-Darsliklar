@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Darslik
 from .forms import DarslikForms
 
+@login_required()
 def darslik_create(request):
     if request.method == 'POST':
         form = DarslikForms(request.POST, request.FILES)
@@ -18,6 +20,7 @@ def darslik_create(request):
 
     return render(request, 'darslik/darslik_create.html', {'form': form})
 
+@login_required()
 def darslik_update(request, id):
     darslik = get_object_or_404(Darslik, id=id)
 
@@ -40,6 +43,7 @@ def darslik_update(request, id):
         'darslik': darslik
     })
 
+@login_required()
 def darslik_delete(request, id):
     fan = get_object_or_404(Darslik, id=id)
     fan_id = fan.fan_nomi.id
