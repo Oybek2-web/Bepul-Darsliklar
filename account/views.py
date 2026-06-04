@@ -46,20 +46,6 @@ def logout_user(request):
     logout(request)
     return redirect('account:login')
 
-# forgot password
-# def forgot_password(request):
-#     if request.method == "POST":
-#         email = request.POST.get("email")
-#         code = random.randint(100000, 999999)
-#
-#         request.session['reset_email'] = email
-#         request.session['reset_code'] = str(code)
-#
-#         send_reset_password_email(email, code)
-#         return redirect('account:verify_otp')
-#
-#     return render(request, "registration/password_reset_form.html")
-
 
 def verify_otp(request):
     if request.method == "POST":

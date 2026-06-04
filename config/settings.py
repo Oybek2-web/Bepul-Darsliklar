@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -17,7 +16,11 @@ SECRET_KEY = 'django-insecure-2v7jr5+(=f!f$10n8p6i!-pb8xgf%o6d_zu!+xyouaf_%v=*r*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    "https://gown-judiciary-debating.ngrok-free.dev"
+]
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.middleware.LogIPMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
