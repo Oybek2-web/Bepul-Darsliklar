@@ -16,14 +16,8 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 
 def send_reset_password_email(email, code):
-
     html_message = render_to_string(
-        'registration/password_reset_email.html',
-        {
-            'code': code
-        }
-    )
-
+        'registration/password_reset_email.html',{'code': code})
     plain_message = f"Your OTP code is: {code}"
 
     msg = EmailMultiAlternatives(

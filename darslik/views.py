@@ -10,14 +10,12 @@ def darslik_create(request):
 
         if form.is_valid():
             new_darslik = form.save()
-
             return redirect(
                 'fanlar:darslik_kirish',
                 id=new_darslik.fan_nomi.id
             )
     else:
         form = DarslikForms()
-
     return render(request, 'darslik/darslik_create.html', {'form': form})
 
 @login_required()
@@ -49,7 +47,6 @@ def darslik_delete(request, id):
     fan_id = fan.fan_nomi.id
     fan.delete()
     return redirect('fanlar:darslik_kirish', id=fan_id)
-
 
 def darslik_detail(request, id):
     darslik = get_object_or_404(Darslik, id=id)

@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 import os
 from pathlib import Path
 
@@ -33,15 +34,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'rosetta',
 
     'fanlar',
     'darslik',
     'account',
+    'startup',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -120,12 +124,26 @@ LOGIN_REDIRECT_URL = 'fanlar:fanlar_list'
 LOGOUT_REDIRECT_URL = 'fanlar:fanlar_list'
 
 LANGUAGE_CODE = 'en-us'
+USE_I18N = True # i18n yoqildi
+USE_L10N = True # l10n yoqildi
+USE_TZ = True # Timezone
+
+
+LANGUAGES = [
+  ('en', _('English')),
+  ('uz', _('O\'zbekcha')),
+]
+
+# Tarjima fayllari joylashuvi
+LOCALE_PATHS = [
+  BASE_DIR / 'locale',
+]
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
-
-USE_TZ = True
+# USE_I18N = True
+#
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
