@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-07 10:07+0500\n"
+"POT-Creation-Date: 2026-06-07 11:14+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\config\settings.py:132
+#: .\config\settings.py:133
 msgid "English"
 msgstr ""
 
-#: .\config\settings.py:133
+#: .\config\settings.py:134
 msgid "O'zbekcha"
 msgstr ""
 
 #: .\darslik\models.py:6
 msgid "Photo"
-msgstr ""
+msgstr "Rasm"
 
 #: .\darslik\models.py:9
 msgid "Fan_nomi"
@@ -46,9 +46,5 @@ msgstr "Ta'riflang"
 msgid "Name"
 msgstr "Sarlavha"
 
-#: .\templates\base.html:361
-msgid "Search"
-msgstr "Qidiruv"
-
-#~ msgid "Image"
-#~ msgstr "Rasm"
+#~ msgid "Search"
+#~ msgstr "Qidiruv"

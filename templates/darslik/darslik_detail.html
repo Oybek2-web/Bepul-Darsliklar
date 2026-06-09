@@ -5,29 +5,56 @@
 {% block content %}
 <style>
   /* Breadcrumb */
-  .bc { display: flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--muted); margin-bottom: 20px; flex-wrap: wrap; }
+  .bc { display: flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--muted); margin-bottom: 18px; flex-wrap: wrap; }
   .bc a { color: var(--muted); text-decoration: none; transition: .15s; }
   .bc a:hover { color: var(--accent); }
   .bc-sep { opacity: .4; }
   .bc-cur { color: var(--text); font-weight: 500; }
 
-  /* Header card */
-  .d-header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  /* Header card — kichraytirildi */
+  .d-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .d-header { grid-template-columns: 260px 1fr; }
+  }
 
-  .d-media { position: relative; aspect-ratio: 16/9; background: linear-gradient(135deg,#4f46e5,#7c3aed); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-  .d-media img, .d-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .d-placeholder { color: rgba(255,255,255,.7); display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: .85rem; }
+  .d-media {
+    position: relative;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    min-height: 180px;
+    max-height: 220px;
+  }
+  @media (min-width: 768px) {
+    .d-media { min-height: 220px; max-height: none; }
+  }
+  .d-media img, .d-media video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .d-placeholder {
+    color: rgba(255,255,255,.7);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: .85rem;
+  }
 
   .d-badge {
     position: absolute; top: 10px; left: 10px;
     background: rgba(255,255,255,.92); color: #111;
-    padding: 3px 10px; border-radius: 6px; font-size: .74rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 6px; font-size: .72rem; font-weight: 600;
     display: inline-flex; align-items: center; gap: 5px;
     backdrop-filter: blur(4px);
   }
 
-  .d-info { padding: 18px 20px; }
-  .d-title { font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 0 0 10px; line-height: 1.3; }
+  .d-info { padding: 20px 22px; display: flex; flex-direction: column; justify-content: center; }
+  .d-title { font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 0 0 10px; line-height: 1.35; }
   .d-meta { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--muted); flex-wrap: wrap; }
   .d-meta-item { display: inline-flex; align-items: center; gap: 4px; }
   .d-meta-dot { opacity: .4; }
@@ -47,20 +74,56 @@
     font-size: .95rem; font-weight: 700; color: var(--text);
     margin: 0 0 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
   }
-  .sec-title svg { color: var(--accent); }
+  .sec-title svg { color: var(--accent); flex-shrink: 0; }
 
   .desc { font-size: .9rem; line-height: 1.75; color: var(--text); }
   .desc p { margin: 0 0 12px; }
   .desc p:last-child { margin: 0; }
 
-  /* Video */
-  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; margin-bottom: 12px; }
-  .video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  /* Video — to'g'ri joylashtirildi */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 14px;
+  }
+  .video-wrap video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    background: #000;
+  }
 
-  /* PDF */
-  .pdf-frame { width: 100%; height: 460px; border: 1px solid var(--border); border-radius: 8px; display: block; margin-bottom: 12px; }
+  /* PDF — to'g'ri joylashtirildi */
+  .pdf-wrap {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    background: var(--bg);
+  }
+  .pdf-frame {
+    width: 100%;
+    height: 520px;
+    display: block;
+    border: none;
+  }
+  @media (max-width: 600px) {
+    .pdf-frame { height: 400px; }
+  }
 
-  /* Download btn */
+  /* Download bar */
+  .dl-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; flex-wrap: wrap;
+    padding-top: 4px;
+  }
   .btn-dl {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 9px 16px; border-radius: 8px;
@@ -76,7 +139,11 @@
   /* Sidebar */
   .sidebar { display: flex; flex-direction: column; gap: 14px; }
   .s-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
-  .s-title { font-size: .82rem; font-weight: 700; color: var(--text); margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
+  .s-title {
+    font-size: .82rem; font-weight: 700; color: var(--text);
+    margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+  }
 
   .q-action {
     display: flex; align-items: center; gap: 9px;
@@ -137,28 +204,27 @@
 <nav class="bc">
   <a href="{% url 'fanlar:fanlar_list' %}">Fanlar</a>
   <span class="bc-sep">/</span>
-  {% url 'fanlar:darslik_kirish' darslik.fan_nomi.id %}
-{{ darslik.fan_nomi.name }}
+  <a href="{% url 'fanlar:darslik_kirish' darslik.fan_nomi.id %}">{{ darslik.fan_nomi.name }}</a>
   <span class="bc-sep">/</span>
   <span class="bc-cur">{{ darslik.title|truncatewords:4 }}</span>
 </nav>
 
-<!-- Header -->
+<!-- Header — kichik rasm, yonma-yon joylashuv -->
 <div class="d-header">
   <div class="d-media">
     {% if darslik.photo %}
       <img src="{{ darslik.photo.url }}" alt="{{ darslik.title }}" loading="lazy">
     {% elif darslik.video %}
-      <video controls preload="metadata"><source src="{{ darslik.video.url }}" type="video/mp4"></video>
+      <video muted preload="metadata"><source src="{{ darslik.video.url }}" type="video/mp4"></video>
     {% else %}
       <div class="d-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         <span>Media mavjud emas</span>
       </div>
     {% endif %}
     <span class="d-badge">
       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      {{ darslik.fan.name }}
+      {{ darslik.fan_nomi.name }}
     </span>
   </div>
   <div class="d-info">
@@ -175,7 +241,10 @@
       </span>
       {% if darslik.pdf %}
       <span class="d-meta-dot">•</span>
-      <span class="d-meta-item">PDF · {{ darslik.pdf.size|filesizeformat }}</span>
+      <span class="d-meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        PDF · {{ darslik.pdf.size|filesizeformat }}
+      </span>
       {% endif %}
     </div>
   </div>
@@ -203,9 +272,10 @@
       <div class="video-wrap">
         <video controls preload="metadata" {% if darslik.photo %}poster="{{ darslik.photo.url }}"{% endif %}>
           <source src="{{ darslik.video.url }}" type="video/mp4">
+          Brauzeringiz video tegni qo'llab-quvvatlamaydi.
         </video>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div class="dl-bar">
         <a href="{{ darslik.video.url }}" class="btn-dl btn-dl-primary" download>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Yuklab olish · {{ darslik.video.size|filesizeformat }}
@@ -222,8 +292,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         PDF material
       </h2>
-      <iframe src="{{ darslik.pdf.url }}#toolbar=0" class="pdf-frame" loading="lazy" title="PDF ko'rish"></iframe>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div class="pdf-wrap">
+        <iframe src="{{ darslik.pdf.url }}#toolbar=0&navpanes=0&scrollbar=1" class="pdf-frame" loading="lazy" title="PDF ko'rish"></iframe>
+      </div>
+      <div class="dl-bar">
         <a href="{{ darslik.pdf.url }}" class="btn-dl btn-dl-green" download>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           PDF yuklab olish
@@ -277,9 +349,9 @@
   <div class="related-head">
     <h3>
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      "{{ darslik.fan.name }}" fanidan boshqa darsliklar
+      "{{ darslik.fan_nomi.name }}" fanidan boshqa darsliklar
     </h3>
-    <a href="{% url 'fanlar:darslik_kirish' darslik.fan.id %}">Barchasini ko'rish →</a>
+    <a href="{% url 'fanlar:darslik_kirish' darslik.fan_nomi.id %}">Barchasini ko'rish →</a>
   </div>
   <div class="r-grid">
     {% for item in boshqa_darsliklar %}
@@ -303,7 +375,7 @@
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
-      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
 

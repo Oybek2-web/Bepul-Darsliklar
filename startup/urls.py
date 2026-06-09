@@ -1,4 +1,7 @@
-strs = ["flower","flow","flight"]
+from django.urls import path
+from . import views
 
-for i in strs:
-    if i == strs:
+urlpatterns = [
+    path('', views.startup_list, name='startup_list'),
+    path('startup_create/', views.startup_create, name='startup_create')
+]

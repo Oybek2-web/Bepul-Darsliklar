@@ -41,7 +41,6 @@
           transition: background .25s, color .25s;
         }
 
-        /* ── NAV ── */
         nav {
           height: 56px;
           display: flex;
@@ -135,10 +134,7 @@
           background: var(--accent2);
           border-color: var(--accent2);
         }
-        .search-btn svg {
-          width: 14px;
-          height: 14px;
-        }
+        .search-btn svg { width: 14px; height: 14px; }
 
         .nav-end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 
@@ -154,7 +150,6 @@
         }
         .icon-btn:hover { color: var(--text); border-color: rgba(255,255,255,.15); }
 
-        /* Language Selector */
         .lang-select-wrap {
           position: relative;
           display: flex;
@@ -177,9 +172,7 @@
           outline: none;
           transition: .15s;
         }
-        .lang-select:hover {
-          border-color: var(--accent);
-        }
+        .lang-select:hover { border-color: var(--accent); }
         .lang-select:focus {
           border-color: var(--accent);
           box-shadow: 0 0 0 3px rgba(99,102,241,.15);
@@ -235,12 +228,10 @@
           display: flex; align-items: center; justify-content: center;
         }
 
-        /* icon-sun / icon-moon */
         .icon-sun { display: none; }
         [data-theme="light"] .icon-moon { display: none; }
         [data-theme="light"] .icon-sun  { display: block; }
 
-        /* ── LAYOUT ── */
         .wrap { display: flex; flex: 1; }
 
         aside {
@@ -285,7 +276,6 @@
           gap: 2px;
         }
 
-        /* ── MAIN ── */
         main {
           flex: 1;
           min-width: 0;
@@ -298,7 +288,6 @@
           to   { opacity: 1; transform: none; }
         }
 
-        /* ── FOOTER ── */
         footer {
           background: var(--surface);
           border-top: 1px solid var(--border);
@@ -311,7 +300,6 @@
         .footer-logo { font-size: .85rem; font-weight: 700; color: var(--accent); }
         .footer-copy { font-size: .75rem; color: var(--muted); }
 
-        /* ── MOBILE ── */
         .hamburger {
           display: none;
           flex-direction: column;
@@ -333,18 +321,9 @@
         }
         .mobile-panel.open { display: flex; }
 
-        .mobile-panel .search {
-          max-width: 100%;
-          width: 100%;
-        }
-
-        .mobile-panel .lang-select-wrap {
-          width: 100%;
-        }
-        .mobile-panel .lang-select {
-          width: 100%;
-          height: 40px;
-        }
+        .mobile-panel .search { max-width: 100%; width: 100%; }
+        .mobile-panel .lang-select-wrap { width: 100%; }
+        .mobile-panel .lang-select { width: 100%; height: 40px; }
 
         @media (max-width: 860px) { aside { display: none; } }
         @media (max-width: 600px) {
@@ -400,10 +379,11 @@
 
         <form action="{% url 'set_language' %}" method="post" style="display:contents">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
             <div class="lang-select-wrap">
                 <select name="language" class="lang-select" onchange="this.form.submit()">
-                    <option value="uz" {% if request.LANGUAGE_CODE == 'uz' %}selected{% endif %}>O'zbekcha</option>
-                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                    <option value="uz"{% if request.LANGUAGE_CODE == 'uz' %} selected{% endif %}>O'zbekcha</option>
+                    <option value="en"{% if request.LANGUAGE_CODE == 'en' %} selected{% endif %}>English</option>
                 </select>
             </div>
         </form>
@@ -454,10 +434,11 @@
 
     <form action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
         <div class="lang-select-wrap">
             <select name="language" class="lang-select" onchange="this.form.submit()">
-                <option value="uz" {% if request.LANGUAGE_CODE == 'uz' %}selected{% endif %}>O'zbekcha</option>
-                <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                <option value="uz"{% if request.LANGUAGE_CODE == 'uz' %} selected{% endif %}>O'zbekcha</option>
+                <option value="en"{% if request.LANGUAGE_CODE == 'en' %} selected{% endif %}>English</option>
             </select>
         </div>
     </form>
@@ -470,8 +451,7 @@
     </form>
     {% else %}
     <a href="{% url 'account:login' %}" class="chip chip-ghost" style="width:100%;height:40px;justify-content:center">Kirish</a>
-    <a href="{% url 'account:register' %}" class="chip chip-fill" style="width:100%;height:40px;justify-content:center">Ro'yxatdan
-        o'tish</a>
+    <a href="{% url 'account:register' %}" class="chip chip-fill" style="width:100%;height:40px;justify-content:center">Ro'yxatdan o'tish</a>
     {% endif %}
 </div>
 

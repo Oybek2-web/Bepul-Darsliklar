@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 import os
 from pathlib import Path
@@ -35,10 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rosetta',
+    'account.apps.AccountConfig',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     'fanlar',
     'darslik',
-    'account',
+    # 'account',
     'startup',
 ]
 
@@ -52,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'common.middleware.LogIPMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -154,7 +162,20 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+SITE_ID = 1  # ← muhim!
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+LOGIN_REDIRECT_URL  = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = reverse_lazy('logout')
+
+# Ixtiyoriy — email orqali login
+ACCOUNT_LOGIN_METHODS      = {'email'}
+ACCOUNT_EMAIL_REQUIRED     = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"

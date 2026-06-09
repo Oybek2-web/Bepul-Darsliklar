@@ -9,6 +9,7 @@ urlpatterns = i18n_patterns(
     path('', include('fanlar.urls')),
     path('darslik/', include('darslik.urls')),
     path('account/', include('account.urls')),
+    path('startup/', include('startup.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('rosetta/', include('rosetta.urls')
   ),

@@ -18,7 +18,8 @@ def register(request):
                 email=data.get('email'),
                 password=data.get('password1')
             )
-            login(request, user)
+            # login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('fanlar:fanlar_list')
         else:
             return render(request, 'account/register.html', {'form': form})

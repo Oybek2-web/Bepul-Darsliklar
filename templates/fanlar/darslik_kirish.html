@@ -139,9 +139,9 @@
     {% for d in darsliklar %}
     <article class="d-card">
         <div class="d-media">
-            {% if d.video %}
+            {% if d.Video %}
             <video controls preload="metadata" {% if d.photo %}poster="{{ d.photo.url }}" {% endif %}>
-                <source src="{{ d.video.url }}" type="video/mp4">
+                <source src="{{ d.Video.url }}" type="video/mp4">
             </video>
             {% elif d.photo %}
             <img src="{{ d.photo.url }}" alt="{{ d.title }}" loading="lazy">
