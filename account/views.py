@@ -88,7 +88,7 @@ def forgot_password(request):
         code = random.randint(100000, 999999)
 
         request.session["reset_email"] = email
-        request.session["reset_code"] = str(code)
+        request.session["reset_code"] = code
 
         send_reset_password_email(email, code)
 

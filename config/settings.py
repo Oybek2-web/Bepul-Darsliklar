@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 import os
 from pathlib import Path
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +14,9 @@ from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2v7jr5+(=f!f$10n8p6i!-pb8xgf%o6d_zu!+xyouaf_%v=*r*'
+# SECRET_KEY = 'django-insecure-2v7jr5+(=f!f$10n8p6i!-pb8xgf%o6d_zu!+xyouaf_%v=*r*'
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,14 +96,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "darslik",
+#         "USER": "postgres",
+#         "PASSWORD": "12",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "darslik",
-        "USER": "postgres",
-        "PASSWORD": "12",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
