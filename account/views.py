@@ -48,29 +48,72 @@ def logout_user(request):
     return redirect('account:login')
 
 
+# def verify_otp(request):
+#     if request.method == "POST":
+#         user_code = request.POST.get("code")
+#         real_code = request.session.get('reset_code')
+#
+#         if user_code == real_code:
+#             return redirect('account:reset_password')
+#         else:
+#             return render(request, "account/password_reset_done.html", {"error": "Wrong OTP"})
+#     return render(request, "registration/password_reset_done.html")
+
 def verify_otp(request):
     if request.method == "POST":
         user_code = request.POST.get("code")
         real_code = request.session.get('reset_code')
 
-        if user_code == real_code:
+        # Ikkalasini ham string qilib taqqoslaymiz
+        if str(user_code) == str(real_code):
             return redirect('account:reset_password')
         else:
-            return render(request, "account/password_reset_done.html", {"error": "Wrong OTP"})
-    return render(request, "registration/password_reset_done.html")
+            return render(request, "account/verify_otp.html", {"error": "❌ Noto'g'ri kod! Qaytadan urinib ko'ring."})
+
+    # GET so'rovda yangi shablonni ko'rsatamiz
+    return render(request, "account/verify_otp.html")
 
 
 def reset_password(request):
     if request.method == "POST":
-        password = request.POST.get("password")
-        email = request.session.get("reset_email")
+        email = request.session.get('reset_email')
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
-        user = User.objects.get(email=email)
-        user.set_password(password)
+        if not email:
+            return redirect('account:forgot')
+
+        if password1 != password2:
+            return render(request, "registration/reset_password.html", {
+                "error": "❌ Parollar mos kelmadi!"
+            })
+
+        if len(password1) < 6:
+            return render(request, "registration/reset_password.html", {
+                "error": "❌ Parol kamida 6 ta belgidan iborat bo'lishi kerak!"
+            })
+
+        # ✅ BU YERDA O'ZGARTIRISH KIRITILDI
+        user = User.objects.filter(email=email).first()
+
+        if not user:
+            return render(request, "registration/reset_password.html", {
+                "error": "Bu email bilan foydalanuvchi topilmadi."
+            })
+
+        user.set_password(password1)
         user.save()
 
+        # Sessiyadan kod va emailni tozalaymiz
+        if 'reset_code' in request.session:
+            del request.session['reset_code']
+        if 'reset_email' in request.session:
+            del request.session['reset_email']
+
         return redirect('account:login')
-    return render(request, "account/password_reset_confirm.html")
+
+    return render(request, "registration/reset_password.html")
+
 
 from .forms import ForgotPasswordForm
 
