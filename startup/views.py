@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import StartUp
 from .forms import StartUpForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def startup_list(request):
     startup = StartUp.objects.all()
     return render(request, 'startup/startup_list.html', {'startup':startup})

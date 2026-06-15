@@ -5,3 +5,6 @@ class StartUpForm(forms.Form):
     class Meta:
         model = StartUp
         fields = '__all__'
+
+    def save(self):
+        pass

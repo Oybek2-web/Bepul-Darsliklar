@@ -46,5 +46,47 @@ msgstr "Ta'riflang"
 msgid "Name"
 msgstr "Sarlavha"
 
+msgid "Darsliklar"
+msgstr "Darsliklar"
+
+msgid "Darslik"
+msgstr "Darslik"
+
+msgid "Fan yoki foydalanuvchi nomi…"
+msgstr "Fan yoki foydalanuvchi nomi…"
+
+msgid "Qidirish"
+msgstr "Qidirish"
+
+msgid "Chiqish"
+msgstr "Chiqish"
+
+msgid "Qo'shish"
+msgstr "Qo'shish"
+
+msgid "Kirish"
+msgstr "Kirish"
+
+msgid "Ro'yxatdan o'tish"
+msgstr "Ro'yxatdan o'tish"
+
+msgid "Menyu"
+msgstr "Menyu"
+
+msgid "Bosh sahifa"
+msgstr "Bosh sahifa"
+
+msgid "Fanlar"
+msgstr "Fanlar"
+
+msgid "Fan qo'shish"
+msgstr "Fan qo'shish"
+
+msgid "Xush kelibsiz 👋 Bu yerda fanlar va darsliklar joylashadi."
+msgstr "Xush kelibsiz 👋 Bu yerda fanlar va darsliklar joylashadi."
+
+msgid "Barcha huquqlar himoyalangan"
+msgstr "Barcha huquqlar himoyalangan"
+
 #~ msgid "Search"
 #~ msgstr "Qidiruv"

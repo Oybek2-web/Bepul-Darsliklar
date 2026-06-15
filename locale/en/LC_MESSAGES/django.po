@@ -46,6 +46,48 @@ msgstr "Describe"
 msgid "Name"
 msgstr "Name"
 
+msgid "Darsliklar"
+msgstr "Textbooks"
+
+msgid "Darslik"
+msgstr "Textbook"
+
+msgid "Fan yoki foydalanuvchi nomi…"
+msgstr "Subject or username…"
+
+msgid "Qidirish"
+msgstr "Search"
+
+msgid "Chiqish"
+msgstr "Logout"
+
+msgid "Qo'shish"
+msgstr "Add"
+
+msgid "Kirish"
+msgstr "Login"
+
+msgid "Ro'yxatdan o'tish"
+msgstr "Register"
+
+msgid "Menyu"
+msgstr "Menu"
+
+msgid "Bosh sahifa"
+msgstr "Home"
+
+msgid "Fanlar"
+msgstr "Subjects"
+
+msgid "Fan qo'shish"
+msgstr "Add subject"
+
+msgid "Xush kelibsiz 👋 Bu yerda fanlar va darsliklar joylashadi."
+msgstr "Welcome 👋 Subjects and textbooks are located here."
+
+msgid "Barcha huquqlar himoyalangan"
+msgstr "All rights reserved"
+
 #~ msgid "Search"
 #~ msgstr "Search"
 
