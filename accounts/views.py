@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from account.forms import UserRegisterForm
+from accounts.forms import UserRegisterForm
 from django.contrib.auth.models import User
-from account.utils import login_required, send_reset_password_email
+from accounts.utils import login_required, send_reset_password_email
 import random
 
 
@@ -22,10 +22,10 @@ def register(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('fanlar:fanlar_list')
         else:
-            return render(request, 'account/register.html', {'form': form})
+            return render(request, 'accounts/register.html', {'form': form})
     else:
         form = UserRegisterForm()
-        return render(request, 'account/register.html', {'form': form})
+        return render(request, 'accounts/register.html', {'form': form})
 
 # LOGIN
 def login_user(request):
@@ -40,12 +40,12 @@ def login_user(request):
             return redirect('fanlar:fanlar_list')
     else:
         form = AuthenticationForm()
-    return render(request,'account/login.html',{'form': form})
+    return render(request,'accounts/login.html',{'form': form})
 
 @login_required
 def logout_user(request):
     logout(request)
-    return redirect('account:login')
+    return redirect('accounts:login')
 
 
 # def verify_otp(request):
@@ -54,9 +54,9 @@ def logout_user(request):
 #         real_code = request.session.get('reset_code')
 #
 #         if user_code == real_code:
-#             return redirect('account:reset_password')
+#             return redirect('accounts:reset_password')
 #         else:
-#             return render(request, "account/password_reset_done.html", {"error": "Wrong OTP"})
+#             return render(request, "accounts/password_reset_done.html", {"error": "Wrong OTP"})
 #     return render(request, "registration/password_reset_done.html")
 
 def verify_otp(request):
@@ -66,12 +66,12 @@ def verify_otp(request):
 
         # Ikkalasini ham string qilib taqqoslaymiz
         if str(user_code) == str(real_code):
-            return redirect('account:reset_password')
+            return redirect('accounts:reset_password')
         else:
-            return render(request, "account/verify_otp.html", {"error": "❌ Noto'g'ri kod! Qaytadan urinib ko'ring."})
+            return render(request, "accounts/verify_otp.html", {"error": "❌ Noto'g'ri kod! Qaytadan urinib ko'ring."})
 
     # GET so'rovda yangi shablonni ko'rsatamiz
-    return render(request, "account/verify_otp.html")
+    return render(request, "accounts/verify_otp.html")
 
 
 def reset_password(request):
@@ -81,7 +81,7 @@ def reset_password(request):
         password2 = request.POST.get("password2")
 
         if not email:
-            return redirect('account:forgot')
+            return redirect('accounts:forgot')
 
         if password1 != password2:
             return render(request, "registration/reset_password.html", {
@@ -110,7 +110,7 @@ def reset_password(request):
         if 'reset_email' in request.session:
             del request.session['reset_email']
 
-        return redirect('account:login')
+        return redirect('accounts:login')
 
     return render(request, "registration/reset_password.html")
 
@@ -135,6 +135,6 @@ def forgot_password(request):
 
         send_reset_password_email(email, code)
 
-        return redirect("account:verify_otp")
+        return redirect("accounts:verify_otp")
 
     return render(request, "registration/password_reset_form.html")

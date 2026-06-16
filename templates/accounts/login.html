@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title %}Kirish | Darsliklar{% endblock %}
 
@@ -125,9 +126,9 @@
 
                 {% if form.errors %}
 
-                    <div class="alert alert-danger">
-                        Username yoki parol noto'g'ri.
-                    </div>
+                <div class="alert alert-danger">
+                    Username yoki parol noto'g'ri.
+                </div>
 
                 {% endif %}
 
@@ -137,7 +138,7 @@
 
             <div class="auth-actions">
 
-                <a href="{% url 'account:forgot' %}"
+                <a href="{% url 'accounts:forgot' %}"
                    class="auth-link">
                     Parolni unutdingizmi
                 </a>
@@ -151,7 +152,7 @@
 
                     Hisobingiz yo'qmi?
 
-                    <a href="{% url 'account:register' %}"
+                    <a href="{% url 'accounts:register' %}"
                        class="auth-link">
 
                         Registratsiya
@@ -164,200 +165,206 @@
 
         </form>
 
+        <a href="{% provider_login_url 'google' %}"
+           class="google-btn">
+            <img src="google-icon.svg" alt="Google">
+            Google bilan kirish
+        </a>
+
     </div>
 
 </div>
 
 <style>
 
-:root{
-    --primary:#6366f1;
-    --primary-dark:#4f46e5;
-    --bg-light:#f8fafc;
-    --text-dark:#1e293b;
-    --text-muted:#64748b;
-    --border:#e2e8f0;
-    --radius:12px;
-}
+    :root{
+        --primary:#6366f1;
+        --primary-dark:#4f46e5;
+        --bg-light:#f8fafc;
+        --text-dark:#1e293b;
+        --text-muted:#64748b;
+        --border:#e2e8f0;
+        --radius:12px;
+    }
 
-.auth-wrapper{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
-}
+    .auth-wrapper{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        padding:20px;
+    }
 
-.auth-card{
-    width:100%;
-    max-width:450px;
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:30px;
-    box-shadow:
-        0 10px 25px rgb(0 0 0 / 0.06);
-}
+    .auth-card{
+        width:100%;
+        max-width:450px;
+        background:#fff;
+        border:1px solid var(--border);
+        border-radius:16px;
+        padding:30px;
+        box-shadow:
+            0 10px 25px rgb(0 0 0 / 0.06);
+    }
 
-.auth-header{
-    text-align:center;
-    margin-bottom:25px;
-}
+    .auth-header{
+        text-align:center;
+        margin-bottom:25px;
+    }
 
-.auth-title{
-    font-size:28px;
-    font-weight:700;
-    margin-bottom:8px;
-    color:var(--text-dark);
-}
+    .auth-title{
+        font-size:28px;
+        font-weight:700;
+        margin-bottom:8px;
+        color:var(--text-dark);
+    }
 
-.auth-subtitle{
-    color:var(--text-muted);
-    margin:0;
-}
+    .auth-subtitle{
+        color:var(--text-muted);
+        margin:0;
+    }
 
-.form-fields{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+        gap:18px;
+    }
 
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
+    .form-group{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    }
 
-.form-label{
-    font-weight:600;
-    color:var(--text-dark);
-}
+    .form-label{
+        font-weight:600;
+        color:var(--text-dark);
+    }
 
-.input-wrapper{
-    position:relative;
-}
+    .input-wrapper{
+        position:relative;
+    }
 
-.form-control{
-    width:100%;
-    padding:12px 14px;
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    background:var(--bg-light);
-    box-sizing:border-box;
-    transition:0.2s ease;
-}
+    .form-control{
+        width:100%;
+        padding:12px 14px;
+        border:1px solid var(--border);
+        border-radius:var(--radius);
+        background:var(--bg-light);
+        box-sizing:border-box;
+        transition:0.2s ease;
+    }
 
-.form-control:focus{
-    outline:none;
-    border-color:var(--primary);
-    background:#fff;
-    box-shadow:
-        0 0 0 4px rgb(99 102 241 / 0.12);
-}
+    .form-control:focus{
+        outline:none;
+        border-color:var(--primary);
+        background:#fff;
+        box-shadow:
+            0 0 0 4px rgb(99 102 241 / 0.12);
+    }
 
-.toggle-password{
-    position:absolute;
-    right:12px;
-    top:50%;
-    transform:translateY(-50%);
-    border:none;
-    background:none;
-    cursor:pointer;
-    color:var(--text-muted);
-}
+    .toggle-password{
+        position:absolute;
+        right:12px;
+        top:50%;
+        transform:translateY(-50%);
+        border:none;
+        background:none;
+        cursor:pointer;
+        color:var(--text-muted);
+    }
 
-.alert{
-    padding:12px;
-    border-radius:10px;
-    font-size:14px;
-}
+    .alert{
+        padding:12px;
+        border-radius:10px;
+        font-size:14px;
+    }
 
-.alert-danger{
-    background:#fef2f2;
-    color:#dc2626;
-    border:1px solid #fecaca;
-}
+    .alert-danger{
+        background:#fef2f2;
+        color:#dc2626;
+        border:1px solid #fecaca;
+    }
 
-.btn{
-    width:100%;
-    border:none;
-    padding:13px;
-    border-radius:var(--radius);
-    cursor:pointer;
-    transition:0.2s ease;
-}
+    .btn{
+        width:100%;
+        border:none;
+        padding:13px;
+        border-radius:var(--radius);
+        cursor:pointer;
+        transition:0.2s ease;
+    }
 
-.btn-primary{
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary-dark)
-    );
+    .btn-primary{
+        background:linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
 
-    color:#fff;
-    font-weight:600;
-}
+        color:#fff;
+        font-weight:600;
+    }
 
-.btn-primary:hover{
-    transform:translateY(-1px);
-}
+    .btn-primary:hover{
+        transform:translateY(-1px);
+    }
 
-.auth-footer-text{
-    text-align:center;
-    margin-top:16px;
-    color:var(--text-muted);
-}
+    .auth-footer-text{
+        text-align:center;
+        margin-top:16px;
+        color:var(--text-muted);
+    }
 
-.auth-link{
-    color:var(--primary);
-    text-decoration:none;
-    font-weight:600;
-}
+    .auth-link{
+        color:var(--primary);
+        text-decoration:none;
+        font-weight:600;
+    }
 
-.auth-link:hover{
-    text-decoration:underline;
-}
+    .auth-link:hover{
+        text-decoration:underline;
+    }
 
-.auth-actions{
-    text-align:center;
-}
+    .auth-actions{
+        text-align:center;
+    }
 
-.auth-actions > .auth-link{
-    display:block;
-    margin-bottom:15px;
-}
+    .auth-actions > .auth-link{
+        display:block;
+        margin-bottom:15px;
+    }
 
 </style>
 
 <script>
 
-document.querySelectorAll('.toggle-password').forEach(button => {
+    document.querySelectorAll('.toggle-password').forEach(button => {
 
-    button.addEventListener('click', function(){
+        button.addEventListener('click', function(){
 
-        const input = this.parentElement.querySelector('input');
+            const input = this.parentElement.querySelector('input');
 
-        if(input.type === 'password'){
+            if(input.type === 'password'){
 
-            input.type = 'text';
+                input.type = 'text';
 
-            this.querySelector('.eye-open').style.display = 'none';
+                this.querySelector('.eye-open').style.display = 'none';
 
-            this.querySelector('.eye-closed').style.display = 'block';
+                this.querySelector('.eye-closed').style.display = 'block';
 
-        } else {
+            } else {
 
-            input.type = 'password';
+                input.type = 'password';
 
-            this.querySelector('.eye-open').style.display = 'block';
+                this.querySelector('.eye-open').style.display = 'block';
 
-            this.querySelector('.eye-closed').style.display = 'none';
+                this.querySelector('.eye-closed').style.display = 'none';
 
-        }
+            }
+
+        });
 
     });
-
-});
 
 </script>
 

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rosetta',
-    'account.apps.AccountConfig',
+    'accounts.apps.AccountConfig',
 
     'allauth',
     'allauth.account',
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
     'fanlar',
     'darslik',
-    # 'account',
+    # 'accounts',
     'startup',
 ]
 
@@ -141,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LOGIN_URL = 'account:login'
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'fanlar:fanlar_list'
 LOGOUT_REDIRECT_URL = 'fanlar:fanlar_list'
 
@@ -180,7 +180,7 @@ SITE_ID = 1  # ← muhim!
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.accounts.auth_backends.AuthenticationBackend',
 )
 
 LOGIN_REDIRECT_URL  = reverse_lazy('login')

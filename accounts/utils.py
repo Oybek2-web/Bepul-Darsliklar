@@ -9,7 +9,7 @@ def login_required(func):
         else:
 
             next_url = request.get_full_path()
-            return redirect(f"{reverse_lazy('account:login')}?next={next_url}")
+            return redirect(f"{reverse_lazy('accounts:login')}?next={next_url}")
     return wrapper
 
 from django.core.mail import send_mail, EmailMultiAlternatives
