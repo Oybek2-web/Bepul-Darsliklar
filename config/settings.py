@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django.contrib.sites',
     'rosetta',
     'accounts.apps.AccountConfig',
 
@@ -141,9 +142,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'fanlar:fanlar_list'
-LOGOUT_REDIRECT_URL = 'fanlar:fanlar_list'
+# LOGIN_URL = 'accounts:login'
+# LOGIN_REDIRECT_URL = 'fanlar:fanlar_list'
+# LOGOUT_REDIRECT_URL = 'fanlar:fanlar_list'
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True # i18n yoqildi
@@ -178,13 +179,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SITE_ID = 1  # ← muhim!
 
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.accounts.auth_backends.AuthenticationBackend',
-)
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
-LOGIN_REDIRECT_URL  = reverse_lazy('login')
-LOGOUT_REDIRECT_URL = reverse_lazy('logout')
+LOGIN_URL = 'accounts:login'
+# LOGIN_REDIRECT_URL  = reverse_lazy('login')
+# LOGOUT_REDIRECT_URL = reverse_lazy('logout')
+
+LOGIN_REDIRECT_URL  = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Ixtiyoriy — email orqali login
 ACCOUNT_LOGIN_METHODS      = {'email'}
